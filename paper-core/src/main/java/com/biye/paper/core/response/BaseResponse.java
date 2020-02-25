@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public abstract class BaseResponse {
 
-    private String code = "";
+    private String code = "200";
 
     private String message = "";
 

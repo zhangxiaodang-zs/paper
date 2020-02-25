@@ -1,7 +1,11 @@
 package com.biye.paper.biz.newstype;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +25,25 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class NewstypeController {
 
+    @Autowired
+    private NewstypeService newstypeService;
 
+    /**
+     * 查询一览.
+     */
+    @RequestMapping("/type/query")
+    public String query(@RequestBody String requestParam) {
+        log.info("查询新闻类型一览开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewstypeRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewstypeRequest>() {
+        });
+
+        // 查询
+        String responseData = this.newstypeService.queryService(requestData);
+
+        log.info("查询新闻类型一览结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
 }

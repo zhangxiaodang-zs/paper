@@ -7,4 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewstypeRequest extends BaseRequest {
+
+    // 类型
+    private String newstype = "";
 }
