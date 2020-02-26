@@ -13,4 +13,12 @@ public interface NewstypeRepository {
     List<Map<String, String>> getNewTypeList(Map<String, Object> param);
 
     int getNewTypeCnt(Map<String, Object> param);
+
+    List<Map<String, String>> getNewTypeListAccurate(Map<String, Object> param);
+
+    int addNewType(Map<String, Object> param);
+
+    int editNewType(Map<String, Object> param);
+
+    int delNewType(Map<String, String> param);
 }

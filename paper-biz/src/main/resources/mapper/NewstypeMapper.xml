@@ -15,7 +15,7 @@
         <if test="newstype != null and newstype != ''">
             AND newstype LIKE "%"#{newstype}"%"
         </if>
-        ORDER BY newstype
+        ORDER BY updtime DESC
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex}, #{pagesize};
         </if>
@@ -33,4 +33,39 @@
         </if>
     </select>
 
+    <select id="getNewTypeListAccurate" parameterType="Map" resultType="Map">
+        SELECT
+        id as newstypeid
+        ,newstype
+        ,updtime as time
+        FROM
+        paper_news_type
+        WHERE
+        1 = 1
+        <if test="newstype != null and newstype != ''">
+            AND newstype = #{newstype}
+        </if>
+        ORDER BY newstype
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex}, #{pagesize};
+        </if>
+    </select>
+
+    <insert id="addNewType" parameterType="Map">
+        INSERT INTO paper_news_type (id, newstype, updtime) VALUES (#{id}, #{newstype}, #{time})
+    </insert>
+
+    <update id="editNewType" parameterType="Map">
+        UPDATE paper_news_type SET
+        <if test="time != null and time != ''">
+             updtime = #{time}
+        </if>
+        <if test="newstype != null and newstype != ''">
+             , newstype = #{newstype}
+        </if>
+        WHERE id = #{id}
+    </update>
+    <delete id="delNewType" parameterType="Map">
+        DELETE FROM paper_news_type WHERE id = #{id}
+    </delete>
 </mapper>

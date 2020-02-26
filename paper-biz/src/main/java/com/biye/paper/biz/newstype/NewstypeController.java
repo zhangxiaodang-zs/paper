@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
  * Copyright(C) ZhiSheng 2019.
@@ -45,5 +46,52 @@ public class NewstypeController {
         log.info("查询新闻类型一览结束..................");
         log.info("返回值为:{}", responseData);
         return responseData;
+    }
+
+    /**
+     * 添加新闻类型.
+     */
+    @RequestMapping("/type/add")
+    @Transactional(rollbackFor = Exception.class)
+    public String add(@RequestBody String requestParam) {
+        log.info("新增新闻类型开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewstypeRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewstypeRequest>() {
+        });
+        String addData="";
+        addData = this.newstypeService.addService(requestData);
+        return addData;
+    }
+
+    /**
+     * 编辑新闻类型.
+     */
+    @RequestMapping("/type/edit")
+    @Transactional(rollbackFor = Exception.class)
+    public String edit(@RequestBody String requestParam) {
+        log.info("编辑新闻类型开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewstypeRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewstypeRequest>() {
+        });
+
+        String edieData="";
+        edieData = this.newstypeService.editService(requestData);
+
+        return edieData;
+    }
+
+    /**
+     * 删除.
+     */
+    @RequestMapping("/type/delete")
+    @Transactional(rollbackFor = Exception.class)
+    @ResponseBody
+    public String del(@RequestParam(value="list",required=false)List<String> advertList) {
+        log.info("删除新闻类型开始..................");
+        //删除
+        String delData = this.newstypeService.delService(advertList);
+        return delData;
     }
 }
