@@ -15,7 +15,7 @@
         <if test="newstype != null and newstype != ''">
             AND newstype LIKE "%"#{newstype}"%"
         </if>
-        ORDER BY updtime DESC
+        ORDER BY newstype
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex}, #{pagesize};
         </if>
@@ -35,13 +35,13 @@
 
     <select id="getNewTypeListAccurate" parameterType="Map" resultType="Map">
         SELECT
-        id as newstypeid
-        ,newstype
-        ,updtime as time
+             id as newstypeid
+            ,newstype
+            ,updtime as time
         FROM
-        paper_news_type
+            paper_news_type
         WHERE
-        1 = 1
+            1 = 1
         <if test="newstype != null and newstype != ''">
             AND newstype = #{newstype}
         </if>
@@ -65,6 +65,7 @@
         </if>
         WHERE id = #{id}
     </update>
+
     <delete id="delNewType" parameterType="Map">
         DELETE FROM paper_news_type WHERE id = #{id}
     </delete>
