@@ -7,9 +7,13 @@ import com.biye.paper.core.utils.BiyeCommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -70,6 +74,7 @@ public class NewstypeService {
     /**
      * 新增.
      */
+    @Transactional(rollbackFor = Exception.class)
     public String addService(NewstypeRequest requestData) {
 
         Map<String, Object> param = new HashMap<>();
@@ -78,7 +83,7 @@ public class NewstypeService {
         //获取时间
         String date = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        java.util.Date dd  = Calendar.getInstance().getTime();
+        java.util.Date dd = Calendar.getInstance().getTime();
         date = sdf.format(dd);
         param.put("time", date);
         //id
@@ -88,14 +93,14 @@ public class NewstypeService {
         String responseData = this.queryServiceAccurate(requestData);
         NewstypeRequest inquireData = JSON.parseObject(responseData, new TypeReference<NewstypeRequest>() {
         });
-        int addData=0;
+        int addData = 0;
         NewstypeResponse response = new NewstypeResponse();
-        if(inquireData.getNewstypelist().equals("[]")){
+        if (inquireData.getNewstypelist().equals("[]")) {
             //表示查询结果为空 进行新增操作
             addData = this.newstypeRepository.addNewType(param);
             log.info("插入结束..................");
             response.setCode("200");
-        }else{
+        } else {
             log.info("已经存在相同类型..........");
             response.setCode("201");
         }
@@ -107,6 +112,7 @@ public class NewstypeService {
     /**
      * 编辑.
      */
+    @Transactional(rollbackFor = Exception.class)
     public String editService(NewstypeRequest requestData) {
 
         Map<String, Object> param = new HashMap<>();
@@ -114,7 +120,7 @@ public class NewstypeService {
         //获取时间
         String date = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        java.util.Date dd  = Calendar.getInstance().getTime();
+        java.util.Date dd = Calendar.getInstance().getTime();
         date = sdf.format(dd);
         param.put("time", date);
         //id
@@ -124,14 +130,14 @@ public class NewstypeService {
         String responseData = this.queryServiceAccurate(requestData);
         NewstypeRequest inquireData = JSON.parseObject(responseData, new TypeReference<NewstypeRequest>() {
         });
-        int result=0;
+        int result = 0;
         NewstypeResponse response = new NewstypeResponse();
-        if(inquireData.getNewstypelist().equals("[]")){
+        if (inquireData.getNewstypelist().equals("[]")) {
             //表示查询结果为空 进行更新操作
             result = this.newstypeRepository.editNewType(param);
             log.info("更新结束..................");
             response.setCode("200");
-        }else{
+        } else {
             log.info("已经存在相同类型..........");
             response.setCode("201");
         }
@@ -143,18 +149,19 @@ public class NewstypeService {
     /**
      * 删除.
      */
-    public String delService(List<String> advertList) {
+    @Transactional(rollbackFor = Exception.class)
+    public String delService(NewstypeRequest requestData) {
         // 删除
-        int result=0;
+        int result = 0;
         NewstypeResponse response = new NewstypeResponse();
         //遍历删除多条
-        for (String advertId : advertList) {
+        for (String advertId : requestData.getNewstypeidlist()) {
             Map<String, String> param = new HashMap<>();
             param.put("id", advertId);
             result = this.newstypeRepository.delNewType(param);
-            if(result==1){
+            if (result == 1) {
                 log.info("删除新闻成功..................");
-            }else{
+            } else {
                 log.info("删除新闻失败..................");
             }
         }
