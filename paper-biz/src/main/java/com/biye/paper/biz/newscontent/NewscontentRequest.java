@@ -14,7 +14,8 @@ public class NewscontentRequest extends BaseRequest {
     private String newstype = "";
 
     // 列表
-    private String newslist = "";
+    private List<String> newslist;
 
-
+    // 删除列表
+    private List<String> newsidlist;
 }

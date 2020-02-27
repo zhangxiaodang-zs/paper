@@ -3,6 +3,7 @@ package com.biye.paper.biz.newscontent;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
+import com.biye.paper.biz.newstype.NewstypeRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,4 +49,20 @@ public class NewscontentController {
         return responseData;
     }
 
+    /**
+     * 删除.
+     */
+    @RequestMapping("/content/delete")
+    public String del(@RequestBody String requestParam) {
+        log.info("删除新闻内容开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewscontentRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewscontentRequest>() {
+        });
+
+        // 删除
+        String delData = this.newscontentService.delService(requestData);
+
+        return delData;
+    }
 }

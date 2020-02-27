@@ -41,5 +41,7 @@
         </if>
     </select>
 
-
+    <delete id="delNewContent" parameterType="Map">
+        DELETE FROM paper_news_content WHERE id = #{id}
+    </delete>
 </mapper>

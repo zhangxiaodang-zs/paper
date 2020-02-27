@@ -2,9 +2,12 @@ package com.biye.paper.biz.newscontent;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.biye.paper.biz.newstype.NewstypeRequest;
+import com.biye.paper.biz.newstype.NewstypeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,5 +50,27 @@ public class NewscontentService {
         return JSON.toJSONString(response);
     }
 
+    /**
+     * 删除.
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String delService(NewscontentRequest requestData) {
+        // 删除
+        int result = 0;
+        NewscontentResponse response = new NewscontentResponse();
+        //遍历删除多条
+        for (String advertId : requestData.getNewsidlist()) {
+            Map<String, String> param = new HashMap<>();
+            param.put("id", advertId);
+            result = this.newscontentRepository.delNewContent(param);
+            if (result == 1) {
+                log.info("删除新闻内容成功..................");
+            } else {
+                log.info("删除新闻内容失败..................");
+            }
+        }
 
+        // 返回
+        return JSON.toJSONString(response);
+    }
 }

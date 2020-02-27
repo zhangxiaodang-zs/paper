@@ -14,4 +14,5 @@ public interface NewscontentRepository {
 
     int getNewContentCnt(Map<String, Object> param);
 
+    int delNewContent(Map<String, String> param);
 }
