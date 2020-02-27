@@ -1,15 +1,17 @@
 package com.biye.paper.biz.newscontent;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-
-import com.biye.paper.biz.newstype.NewstypeRequest;
+import com.biye.paper.core.utils.BiyeCommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.InputStream;
 
 /**
  * Copyright(C) ZhiSheng 2019.
@@ -29,6 +31,12 @@ public class NewscontentController {
 
     @Autowired
     private NewscontentService newscontentService;
+
+    // 保存路径
+    private String SAVE_PATH = "D:\\";
+
+    // 返回的URL
+    private String SAVE_URL = "";
 
     /**
      * 查询一览.
@@ -64,5 +72,44 @@ public class NewscontentController {
         String delData = this.newscontentService.delService(requestData);
 
         return delData;
+    }
+
+    /**
+     * 富文框上传图片.
+     */
+    @RequestMapping("/content/uploadfile")
+    public String uploadUeditor(@RequestParam("upfile") MultipartFile file, HttpServletRequest request) {
+        log.info("富文本框上传图片开始..................");
+
+        JSONObject json = new JSONObject();
+
+        try {
+            InputStream inputStream = file.getInputStream();
+            // 文件类型
+            String fileType = file.getOriginalFilename().
+                    substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+            // 文件名
+            String fileName = BiyeCommonUtil.getUUid() + "." + fileType;
+            log.info("保存的文件名称为：[{}]", fileName);
+            String fileFullPath = SAVE_PATH + fileName;
+            file.transferTo(new File(fileFullPath));
+
+            json.put("state", "SUCCESS");
+            json.put("original", file.getOriginalFilename());
+            json.put("size", file.getSize());
+            // TODO
+            // json.put("url", "http://www.biye.com.cn/back/img/" + fileName);
+            json.put("url", "http://www.biye.com.cn/back/img/1.jpg");
+            json.put("title", file.getOriginalFilename());
+            json.put("type", file.getOriginalFilename().
+                    substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+            json.put("code", "200");
+        } catch (Exception ex) {
+            log.error("富文本框上传图片时异常：\n{}", ex.getMessage());
+            json.put("state", "FAILURE");
+        }
+
+        // 返回
+        return json.toJSONString();
     }
 }

@@ -8,6 +8,11 @@ spring:
     url: jdbc:mysql://47.104.231.221:3306/PAPER?allowMultiQueries=true&characterEncoding=utf8&useSSL=false&useAffectedRows=true&serverTimezone=UTC
     username: biye
     password: biye
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 200MB
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
