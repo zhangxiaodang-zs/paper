@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biye.paper.biz.newscontent.NewscontentRepository">
+    
+    <select id="getNewContentList" parameterType="Map" resultType="Map">
+        SELECT
+             c.id as newsid
+--             ,c.typeid as typeid
+            ,c.title as title
+            ,c.summary as summary
+--             ,c.thumbs as thumbs
+            ,c.content as newsurl
+            ,c.readtimes as readtimes
+            ,c.goodtimes as thumbs
+            ,c.updtime as updtime
+            ,t.newstype as newstype
+        FROM
+            paper_news_content c
+        LEFT JOIN paper_news_type t ON c.typeid = t.id
+        WHERE
+            1 = 1
+        <if test="newstype != null and newstype != ''">
+            AND c.typeid = #{newstype}
+        </if>
+        ORDER BY c.updtime DESC
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex}, #{pagesize};
+        </if>
+    </select>
+
+    <select id="getNewContentCnt" parameterType="Map" resultType="int">
+        SELECT
+            COUNT(*) as cnt
+        FROM
+            paper_news_content
+        WHERE
+            1 = 1
+        <if test="title != null and title != ''">
+            AND title LIKE "%"#{title}"%"
+        </if>
+    </select>
+
+
+</mapper>
