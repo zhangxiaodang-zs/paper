@@ -10,15 +10,7 @@ import java.util.List;
 @Setter
 public class FrontRequest extends BaseRequest {
 
-    // 类型
-    private String newstype = "";
-
-    // 列表
-    private String newstypelist = "";
-
-    // 类型id
+    // 新闻类型id
     private String newstypeid = "";
 
-    // 删除列表
-    private List<String> newstypeidlist;
 }

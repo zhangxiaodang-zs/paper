@@ -20,4 +20,38 @@
             paper_question_type
         ORDER BY questiontype
     </select>
+
+    <select id="getNewsList" parameterType="Map" resultType="Map">
+        SELECT
+             c.id as id
+            ,c.typeid as typeid
+            ,c.title as title
+            ,c.summary as summary
+            ,c.thumbs as thumbs
+            ,c.readtimes as readtimes
+            ,c.goodtimes as goodtimes
+            ,c.updtime as add_time
+            ,'毕业之家' as author
+        FROM
+            paper_news_content c
+        WHERE
+        <if test="typeid != null and typeid != ''">
+            c.typeid = #{typeid}
+        </if>
+        ORDER BY c.updtime DESC
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex}, #{pagesize};
+        </if>
+    </select>
+
+    <select id="getNewsCnt" parameterType="Map" resultType="int">
+        SELECT
+            COUNT(*) as cnt
+        FROM
+            paper_news_content
+        WHERE
+        <if test="typeid != null and typeid != ''">
+            typeid = #{typeid}
+        </if>
+    </select>
 </mapper>
