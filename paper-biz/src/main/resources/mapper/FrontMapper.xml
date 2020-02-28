@@ -54,4 +54,19 @@
             typeid = #{typeid}
         </if>
     </select>
+
+    <select id="getNewsContent" parameterType="Map" resultType="Map">
+        SELECT
+             id
+            ,title
+            ,content
+            ,readtimes
+            ,goodtimes
+            ,updtime
+            ,'毕业之家' as author
+        FROM
+            paper_news_content
+        WHERE
+            id = #{newsid}
+    </select>
 </mapper>

@@ -52,4 +52,24 @@ public class FrontController {
         log.info("返回值为:{}", responseData);
         return responseData;
     }
+
+    /**
+     * 获取新闻详细内容.
+     */
+    @RequestMapping("/news/content")
+    public String getNewsContent(@RequestBody String requestParam) {
+        log.info("获取新闻内容开始.........................");
+
+        log.info("请求参数为：{}", requestParam);
+        FrontRequest requestData = JSON.parseObject(requestParam, new TypeReference<FrontRequest>() {
+        });
+
+        // 查询
+        String responseData = this.frontService.getNewsContentService(requestData);
+
+        log.info("获取新闻内容结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
+
 }

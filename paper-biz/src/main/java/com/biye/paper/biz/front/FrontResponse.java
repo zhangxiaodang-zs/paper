@@ -19,4 +19,7 @@ public class FrontResponse extends BaseResponse {
 
     // 常见问题类型一览
     private List<Map<String, String>> quelist;
+
+    // 新闻内容
+    private Map<String, String> newscontent;
 }

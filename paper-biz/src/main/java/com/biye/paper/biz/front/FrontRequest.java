@@ -13,4 +13,6 @@ public class FrontRequest extends BaseRequest {
     // 新闻类型id
     private String newstypeid = "";
 
+    // 新闻ID
+    private String newsid = "";
 }

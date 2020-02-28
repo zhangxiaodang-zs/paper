@@ -29,4 +29,9 @@ public interface FrontRepository {
      * 查询新闻一览条数.
      */
     int getNewsCnt(Map<String, Object> param);
+
+    /**
+     * 获取新闻详细内容.
+     */
+    Map<String, String> getNewsContent(Map<String, String> param);
 }

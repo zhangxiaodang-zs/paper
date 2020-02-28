@@ -56,11 +56,31 @@ public class FrontService {
         responseData.setNewscontentlist(newsList);
         responseData.setTotalcount(cnt);
         log.info("返回的新闻一览数据为：\n{}", JSON.toJSONString(
-                requestData,
+                responseData,
                 SerializerFeature.PrettyFormat
         ));
 
         return JSON.toJSONString(responseData);
     }
 
+    /**
+     * 获取新闻内容.
+     */
+    public String getNewsContentService(FrontRequest requestData) {
+        Map<String, String> param = new HashMap<>();
+        param.put("newsid", requestData.getNewsid());
+
+        // 查询
+        Map<String, String> newsContent = this.frontRepository.getNewsContent(param);
+
+        FrontResponse responseData = new FrontResponse();
+        responseData.setNewscontent(newsContent);
+        log.info("返回的新闻内容数据为：\n{}", JSON.toJSONString(
+                responseData,
+                SerializerFeature.PrettyFormat
+        ));
+
+        // 返回
+        return JSON.toJSONString(responseData);
+    }
 }
