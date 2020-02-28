@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biye.paper.biz.front.FrontRepository">
+    
+    <select id="getNewMenu" resultType="Map">
+        SELECT
+             id as newstypeid
+            ,newstype
+        FROM
+            paper_news_type
+        ORDER BY newstype
+    </select>
+
+    <select id="getQueMenu" resultType="Map">
+        SELECT
+             id as questionid
+            ,questiontype
+        FROM
+            paper_question_type
+        ORDER BY questiontype
+    </select>
+</mapper>
