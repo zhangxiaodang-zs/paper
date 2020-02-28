@@ -9,8 +9,8 @@
 --             ,c.typeid as typeid
             ,c.title as title
             ,c.summary as summary
---             ,c.thumbs as thumbs
-            ,c.content as newsurl
+            ,c.thumbs as newsurl
+--             ,c.content as newsurl
             ,c.readtimes as readtimes
             ,c.goodtimes as thumbs
             ,c.updtime as updtime
@@ -40,6 +40,80 @@
             AND title LIKE "%"#{title}"%"
         </if>
     </select>
+
+    <select id="getNewsContentDetail" parameterType="Map" resultType="com.biye.paper.biz.newscontent.NewscontentResponse">
+        SELECT
+        c.id as newsid
+        ,c.typeid as newstypeid
+        ,c.title as title
+--         ,c.thumbs as usrc
+        ,c.summary as summary
+        ,c.content as content
+        ,c.readtimes as readtimes
+        ,c.goodtimes as goodtimes
+        ,c.updtime as updtime
+        ,t.newstype as newstype
+        FROM
+        paper_news_content c
+        LEFT JOIN paper_news_type t ON c.typeid = t.id
+        WHERE
+        1 = 1
+        <if test="newsid != null and newsid != ''">
+            AND c.id = #{newsid}
+        </if>
+    </select>
+
+    <select id="getNewsContentListAccurate" parameterType="Map" resultType="Map">
+        SELECT
+        c.id as newsid
+        ,c.typeid as newstypeid
+        ,c.title as title
+        ,c.summary as summary
+        ,c.content as content
+        ,c.readtimes as readtimes
+        ,c.goodtimes as thumbs
+        ,c.updtime as updtime
+        ,t.newstype as newstype
+        FROM
+        paper_news_content c
+        LEFT JOIN paper_news_type t ON c.typeid = t.id
+        WHERE
+        1 = 1
+        <if test="newsid != null and newsid != ''">
+            AND c.id = #{newsid}
+        </if>
+        <if test="title != null and title != ''">
+            AND c.title = #{title}
+        </if>
+    </select>
+
+    <insert id="addNewsContent" parameterType="Map">
+        INSERT INTO paper_news_content (id, typeid, title, summary, content, updtime,thumbs)
+        VALUES (#{newsid}, #{newstypeid}, #{title}, #{summary}, #{content}, #{time}, #{newsurl})
+    </insert>
+
+    <update id="editNewsContent" parameterType="Map">
+        UPDATE paper_news_content SET
+        <if test="time != null and time != ''">
+            updtime = #{time}
+        </if>
+        <if test="newsurl != null and newsurl != ''">
+            ,thumbs = #{newsurl}
+        </if>
+        <if test="title != null and title != ''">
+            ,title = #{title}
+        </if>
+        <if test="newstypeid != null and newstypeid != ''">
+            ,typeid = #{newstypeid}
+        </if>
+        <if test="summary != null and summary != ''">
+            ,summary = #{summary}
+        </if>
+        <if test="content != null and content != ''">
+            ,content = #{content}
+        </if>
+        WHERE id = #{newsid}
+    </update>
 
     <delete id="delNewContent" parameterType="Map">
         DELETE FROM paper_news_content WHERE id = #{id}

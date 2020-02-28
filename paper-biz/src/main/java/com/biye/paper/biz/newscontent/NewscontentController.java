@@ -3,6 +3,7 @@ package com.biye.paper.biz.newscontent;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.biye.paper.biz.questioncontent.QuestioncontentRequest;
 import com.biye.paper.core.utils.BiyeCommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,5 +112,56 @@ public class NewscontentController {
 
         // 返回
         return json.toJSONString();
+    }
+
+    /**
+     * 详情.
+     */
+    @RequestMapping("/content/detail")
+    public String detail(@RequestBody String requestParam) {
+        log.info("查询新闻内容详情一览开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewscontentRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewscontentRequest>() {
+        });
+
+        // 查询
+        String responseData = this.newscontentService.queryDetailService(requestData);
+
+        log.info("查询问题内容详情一览结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
+
+    /**
+     * 编辑问题内容.
+     */
+    @RequestMapping("/content/edit")
+    public String edit(@RequestBody String requestParam) {
+        log.info("编辑问题内容开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewscontentRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewscontentRequest>() {
+        });
+
+        String edieData = "";
+        edieData = this.newscontentService.editService(requestData);
+
+        return edieData;
+    }
+
+    /**
+     * 添加问题内容.
+     */
+    @RequestMapping("/content/add")
+    public String add(@RequestBody String requestParam) {
+        log.info("新增新闻内容开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        NewscontentRequest requestData = JSON.parseObject(requestParam, new TypeReference<NewscontentRequest>() {
+        });
+        String addData = "";
+        addData = this.newscontentService.addService(requestData);
+        return addData;
     }
 }
