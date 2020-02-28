@@ -27,7 +27,7 @@
             ,c.typeid as typeid
             ,c.title as title
             ,c.summary as summary
-            ,c.thumbs as thumbs
+            ,IFNULL(c.thumbs,' ') as thumbs
             ,c.readtimes as readtimes
             ,c.goodtimes as goodtimes
             ,c.updtime as add_time
