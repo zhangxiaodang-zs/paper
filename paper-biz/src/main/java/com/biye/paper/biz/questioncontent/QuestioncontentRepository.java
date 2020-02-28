@@ -14,9 +14,13 @@ public interface QuestioncontentRepository {
 
     QuestioncontentResponse getQuestionContentDetail(Map<String, Object> param);
 
+    List<Map<String, String>> getQuestionContentListAccurate(Map<String, Object> param);
+
     int getQuestionContentCnt(Map<String, Object> param);
 
     int editQuestionContent(Map<String, Object> param);
+
+    int addQuestionContent(Map<String, Object> param);
 
     int delQuestionContent(Map<String, String> param);
 }

@@ -152,4 +152,18 @@ public class QuestioncontentController {
         return edieData;
     }
 
+    /**
+     * 添加问题内容.
+     */
+    @RequestMapping("/content/add")
+    public String add(@RequestBody String requestParam) {
+        log.info("新增问题内容开始..................");
+
+        log.info("请求参数为：{}", requestParam);
+        QuestioncontentRequest requestData = JSON.parseObject(requestParam, new TypeReference<QuestioncontentRequest>() {
+        });
+        String addData = "";
+        addData = this.questioncontentService.addService(requestData);
+        return addData;
+    }
 }

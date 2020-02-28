@@ -8,6 +8,7 @@ import com.biye.paper.biz.newscontent.NewscontentRequest;
 import com.biye.paper.biz.newscontent.NewscontentResponse;
 import com.biye.paper.biz.newstype.NewstypeRequest;
 import com.biye.paper.biz.newstype.NewstypeResponse;
+import com.biye.paper.core.utils.BiyeCommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,6 +134,66 @@ public class QuestioncontentService {
             log.info("已经存在相同类型..........");
             response.setCode("201");
         }
+
+        // 返回
+        return JSON.toJSONString(response);
+    }
+
+    /**
+     * 新增.
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String addService(QuestioncontentRequest requestData) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("content", requestData.getContent());
+        param.put("summary", requestData.getSummary());
+        param.put("title", requestData.getTitle());
+        param.put("questiontypeid", requestData.getQuestiontypeid());
+
+        //获取时间
+        String date = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        java.util.Date dd = Calendar.getInstance().getTime();
+        date = sdf.format(dd);
+        param.put("time", date);
+        //id
+        param.put("questionid", BiyeCommonUtil.getUUid());
+        // 插入
+        // 先查询是否存在相同名称
+        String responseData = this.queryServiceAccurate(requestData);
+        QuestioncontentRequest inquireData = JSON.parseObject(responseData, new TypeReference<QuestioncontentRequest>() {
+        });
+        int addData = 0;
+        QuestioncontentResponse response = new QuestioncontentResponse();
+        if (inquireData.getQuestionlist().size()==0) {
+            //表示查询结果为空 进行新增操作
+            addData = this.questioncontentRepository.addQuestionContent(param);
+            log.info("插入结束..................");
+            response.setCode("200");
+        } else {
+            log.info("已经存在相同类型..........");
+            response.setCode("201");
+        }
+
+        // 返回
+        return JSON.toJSONString(response);
+    }
+
+    /**
+     * 准确查询.
+     */
+    public String queryServiceAccurate(QuestioncontentRequest requestData) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("title", requestData.getTitle());
+
+        // 查询
+        List<Map<String, String>> list = this.questioncontentRepository.getQuestionContentListAccurate(param);
+        QuestioncontentResponse response = new QuestioncontentResponse();
+        response.setQuestionlist(list);
+
+        log.info("根据title查询的结果：{}\n", JSON.toJSONString(response, SerializerFeature.PrettyFormat));
 
         // 返回
         return JSON.toJSONString(response);

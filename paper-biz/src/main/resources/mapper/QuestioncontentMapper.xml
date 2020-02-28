@@ -44,6 +44,27 @@
         </if>
     </select>
 
+    <select id="getQuestionContentListAccurate" parameterType="Map" resultType="Map">
+        SELECT
+        c.id as questionid
+        ,c.typeid as questiontypeid
+        ,c.title as title
+        ,c.summary as summary
+        ,c.content as content
+        ,c.readtimes as readtimes
+        ,c.goodtimes as thumbs
+        ,c.updtime as updtime
+        ,t.questiontype as questiontype
+        FROM
+        paper_question_content c
+        LEFT JOIN paper_question_type t ON c.typeid = t.id
+        WHERE
+        1 = 1
+        <if test="title != null and title != ''">
+            AND title = #{title}
+        </if>
+    </select>
+
     <delete id="delQuestionContent" parameterType="Map">
         DELETE FROM paper_question_content WHERE id = #{id}
     </delete>
@@ -88,4 +109,9 @@
         </if>
         WHERE id = #{questionid}
     </update>
+
+    <insert id="addQuestionContent" parameterType="Map">
+        INSERT INTO paper_question_content (id, typeid, title, summary, content, updtime)
+        VALUES (#{questionid}, #{questiontypeid}, #{title}, #{summary}, #{content}, #{time})
+    </insert>
 </mapper>
