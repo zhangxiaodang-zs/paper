@@ -35,10 +35,16 @@
         FROM
             paper_news_content c
         WHERE
+        1 = 1
         <if test="typeid != null and typeid != ''">
             c.typeid = #{typeid}
         </if>
-        ORDER BY c.updtime DESC
+        <if test="newstype != null and newstype != ''">
+            ORDER BY c.readtimes DESC
+        </if>
+        <if test="newstype == null or newstype == ''">
+            ORDER BY c.updtime DESC
+        </if>
         <if test="pagingOrNot != null and pagingOrNot != ''">
             LIMIT #{startindex}, #{pagesize};
         </if>
@@ -50,6 +56,7 @@
         FROM
             paper_news_content
         WHERE
+        1 = 1
         <if test="typeid != null and typeid != ''">
             typeid = #{typeid}
         </if>
@@ -62,11 +69,65 @@
             ,content
             ,readtimes
             ,goodtimes
-            ,updtime
+            ,updtime as add_time
             ,'毕业之家' as author
         FROM
             paper_news_content
         WHERE
             id = #{newsid}
     </select>
+
+    <select id="getQuestionList" parameterType="Map" resultType="Map">
+        SELECT
+        c.id as id
+        ,c.typeid as typeid
+        ,c.title as title
+        ,c.summary as summary
+        ,c.readtimes as readtimes
+        ,c.goodtimes as goodtimes
+        ,c.updtime as add_time
+        ,'毕业之家' as author
+        FROM
+        paper_question_content c
+        WHERE
+        1 = 1
+        <if test="typeid != null and typeid != ''">
+            c.typeid = #{typeid}
+        </if>
+        <if test="newstype != null and newstype != ''">
+            ORDER BY c.readtimes DESC
+        </if>
+        <if test="newstype == null or newstype == ''">
+            ORDER BY c.updtime DESC
+        </if>
+        <if test="pagingOrNot != null and pagingOrNot != ''">
+            LIMIT #{startindex}, #{pagesize};
+        </if>
+    </select>
+
+    <select id="getQuestionCnt" parameterType="Map" resultType="int">
+        SELECT
+        COUNT(*) as cnt
+        FROM
+        paper_question_content
+        WHERE
+        1 = 1
+        <if test="typeid != null and typeid != ''">
+            typeid = #{typeid}
+        </if>
+    </select>
+
+    <update id="addNewsReadNum" parameterType="Map">
+        update paper_news_content
+        set
+        readtimes = CAST(readtimes as SIGNED) + 1
+        where id = #{newsid}
+    </update>
+
+    <update id="addNewsGoodtimes" parameterType="Map">
+        update paper_news_content
+        set
+        goodtimes = CAST(goodtimes as SIGNED) + 1
+        where id = #{newsid}
+    </update>
 </mapper>

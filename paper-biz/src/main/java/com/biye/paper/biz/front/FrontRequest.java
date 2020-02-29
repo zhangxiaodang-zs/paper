@@ -15,4 +15,13 @@ public class FrontRequest extends BaseRequest {
 
     // 新闻ID
     private String newsid = "";
+
+    // 1为相关文章列表；2为热点新闻列表
+    private String newstype = "";
+
+    // 问题类型id
+    private String questiontypeid = "";
+
+    // 问题ID
+    private String questionid = "";
 }

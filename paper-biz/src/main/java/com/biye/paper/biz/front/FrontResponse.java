@@ -22,4 +22,13 @@ public class FrontResponse extends BaseResponse {
 
     // 新闻内容
     private Map<String, String> newscontent;
+
+    // 新闻类型一览
+    private List<Map<String, String>> questionlist;
+
+    // 新闻内容一览
+    private List<Map<String, String>> questioncontentlist;
+
+    // 新闻内容
+    private Map<String, String> questioncontent;
 }

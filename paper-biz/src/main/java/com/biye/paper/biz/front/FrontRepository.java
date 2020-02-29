@@ -34,4 +34,21 @@ public interface FrontRepository {
      * 获取新闻详细内容.
      */
     Map<String, String> getNewsContent(Map<String, String> param);
+
+    /**
+     * 查询问题一览.
+     */
+    List<Map<String, String>> getQuestionList(Map<String, Object> param);
+    /**
+     * 查询问题一览条数.
+     */
+    int getQuestionCnt(Map<String, Object> param);
+    /**
+     * 新闻阅读量
+     */
+    int addNewsReadNum(Map<String, String> param);
+    /**
+     * 新闻点赞
+     */
+    int addNewsGoodtimes(Map<String, String> param);
 }
