@@ -118,4 +118,61 @@ public class FrontController {
         log.info("返回值为:{}", responseData);
         return responseData;
     }
+
+    /**
+     * 获取问题列表.
+     */
+    @RequestMapping("/question/list")
+    public String getQuestionList(@RequestBody String requestParam) {
+        log.info("获取问题列表开始.........................");
+
+        log.info("请求参数为+：{}", requestParam);
+        FrontRequest requestData = JSON.parseObject(requestParam, new TypeReference<FrontRequest>() {
+        });
+
+        // 查询
+        String responseData = this.frontService.getQuestionListService(requestData);
+
+        log.info("获取新闻列表结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
+
+    /**
+     * 获取问题详细内容.
+     */
+    @RequestMapping("/question/content")
+    public String getQuestionContent(@RequestBody String requestParam) {
+        log.info("获取问题内容开始.........................");
+
+        log.info("请求参数为：{}", requestParam);
+        FrontRequest requestData = JSON.parseObject(requestParam, new TypeReference<FrontRequest>() {
+        });
+
+        // 查询
+        String responseData = this.frontService.getQuestionContentService(requestData);
+
+        log.info("获取问题内容结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
+
+    /**
+     * 问题点赞.
+     */
+    @RequestMapping("/question/infolike")
+    public String addQuestionGoodtimes(@RequestBody String requestParam) {
+        log.info("点赞开始.........................");
+
+        log.info("请求参数为：{}", requestParam);
+        FrontRequest requestData = JSON.parseObject(requestParam, new TypeReference<FrontRequest>() {
+        });
+
+        // 查询
+        String responseData = this.frontService.addQuestionGoodtimes(requestData);
+
+        log.info("点赞开始结束..................");
+        log.info("返回值为:{}", responseData);
+        return responseData;
+    }
 }

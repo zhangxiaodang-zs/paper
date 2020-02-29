@@ -105,6 +105,21 @@
         </if>
     </select>
 
+    <select id="getQuestionContent" parameterType="Map" resultType="Map">
+        SELECT
+             id
+            ,title
+            ,content
+            ,readtimes
+            ,goodtimes
+            ,updtime as add_time
+            ,'毕业之家' as author
+        FROM
+            paper_question_content
+        WHERE
+            id = #{questionid}
+    </select>
+
     <select id="getQuestionCnt" parameterType="Map" resultType="int">
         SELECT
         COUNT(*) as cnt
@@ -130,4 +145,19 @@
         goodtimes = CAST(goodtimes as SIGNED) + 1
         where id = #{newsid}
     </update>
+
+    <update id="addQuestionReadNum" parameterType="Map">
+        update paper_question_content
+        set
+        readtimes = CAST(readtimes as SIGNED) + 1
+        where id = #{questionid}
+    </update>
+
+    <update id="addQuestionGoodtimes" parameterType="Map">
+        update paper_question_content
+        set
+        goodtimes = CAST(goodtimes as SIGNED) + 1
+        where id = #{questionid}
+    </update>
+
 </mapper>

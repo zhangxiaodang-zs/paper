@@ -51,4 +51,19 @@ public interface FrontRepository {
      * 新闻点赞
      */
     int addNewsGoodtimes(Map<String, String> param);
+
+    /**
+     * 获取问题详细内容.
+     */
+    Map<String, String> getQuestionContent(Map<String, String> param);
+
+    /**
+     * 问题阅读量
+     */
+    int addQuestionReadNum(Map<String, String> param);
+
+    /**
+     * 问题点赞
+     */
+    int addQuestionGoodtimes(Map<String, String> param);
 }

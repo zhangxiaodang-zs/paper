@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +89,21 @@ public class FrontService {
     }
 
     /**
+     * 新闻点赞.
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String addNewsGoodtimes(FrontRequest requestData) {
+        Map<String, String> param = new HashMap<>();
+        param.put("newsid", requestData.getNewsid());
+
+        // 点赞
+        int addgood = this.frontRepository.addNewsGoodtimes(param);
+
+        // 返回
+        return JSON.toJSONString(addgood);
+    }
+
+    /**
      * 获取问题列表.
      */
     public String getQuestionListService(FrontRequest requestData) {
@@ -118,14 +134,39 @@ public class FrontService {
     }
 
     /**
-     * 新闻点赞.
+     * 获取问题内容.
      */
-    public String addNewsGoodtimes(FrontRequest requestData) {
+    public String getQuestionContentService(FrontRequest requestData) {
         Map<String, String> param = new HashMap<>();
-        param.put("newsid", requestData.getNewsid());
+        param.put("questionid", requestData.getQuestionid());
+
+        // 查询
+        Map<String, String> questionContent = this.frontRepository.getQuestionContent(param);
+        questionContent.put("read",questionContent.get("readtimes"));
+        questionContent.put("like",questionContent.get("goodtimes"));
+        FrontResponse responseData = new FrontResponse();
+        responseData.setQuestioncontent(questionContent);
+        log.info("返回的新闻内容数据为：\n{}", JSON.toJSONString(
+                responseData,
+                SerializerFeature.PrettyFormat
+        ));
+        // 阅读量
+        int readnum = this.frontRepository.addQuestionReadNum(param);
+
+        // 返回
+        return JSON.toJSONString(responseData);
+    }
+
+    /**
+     * 问题点赞.
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String addQuestionGoodtimes(FrontRequest requestData) {
+        Map<String, String> param = new HashMap<>();
+        param.put("questionid", requestData.getQuestionid());
 
         // 点赞
-        int addgood = this.frontRepository.addNewsGoodtimes(param);
+        int addgood = this.frontRepository.addQuestionGoodtimes(param);
 
         // 返回
         return JSON.toJSONString(addgood);
