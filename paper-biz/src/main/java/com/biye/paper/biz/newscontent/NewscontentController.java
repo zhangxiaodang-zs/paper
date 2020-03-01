@@ -34,10 +34,7 @@ public class NewscontentController {
     private NewscontentService newscontentService;
 
     // 保存路径
-    private String SAVE_PATH = "D:\\";
-
-    // 返回的URL
-    private String SAVE_URL = "";
+    private String SAVE_PATH = "/home/biye/tmp/img/";
 
     /**
      * 查询一览.
@@ -99,8 +96,8 @@ public class NewscontentController {
             json.put("original", file.getOriginalFilename());
             json.put("size", file.getSize());
             // TODO
-            // json.put("url", "http://www.biye.com.cn/back/img/" + fileName);
-            json.put("url", "http://www.biye.com.cn/back/img/1.jpg");
+            json.put("url", "http://www.biye.com.cn/back/img/" + fileName);
+            //json.put("url", "http://www.biye.com.cn/back/img/1.jpg");
             json.put("title", file.getOriginalFilename());
             json.put("type", file.getOriginalFilename().
                     substring(file.getOriginalFilename().lastIndexOf(".") + 1));

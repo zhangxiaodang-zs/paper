@@ -15,6 +15,9 @@ spring:
       max-request-size: 200MB
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
-  configuration:
-    call-setters-on-nulls: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    call-setters-on-nulls: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file:
+    name: /home/biye/logs/paper-biz.log
