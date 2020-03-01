@@ -8,6 +8,7 @@ import com.biye.paper.biz.newstype.NewstypeResponse;
 import com.biye.paper.biz.questioncontent.QuestioncontentRequest;
 import com.biye.paper.biz.questioncontent.QuestioncontentResponse;
 import com.biye.paper.core.utils.BiyeCommonUtil;
+import com.biye.paper.core.utils.BiyeDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,30 +109,29 @@ public class NewscontentService {
         param.put("content", requestData.getContent());
         param.put("summary", requestData.getSummary());
         param.put("newstypeid", requestData.getNewstypeid());
-        //获取时间
-        String date = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        java.util.Date dd = Calendar.getInstance().getTime();
-        date = sdf.format(dd);
-        param.put("time", date);
+        param.put("time", BiyeDateTimeUtil.getTimeformat());
         //id
         param.put("newsid", requestData.getNewsid());
         // 更新该id对应信息
         // 先查询是否存在相同名称
         String responseData = this.queryServiceAccurate(requestData);
-        NewscontentRequest inquireData = JSON.parseObject(responseData, new TypeReference<NewscontentRequest>() {
-        });
-        int result = 0;
+//        NewscontentRequest inquireData = JSON.parseObject(responseData, new TypeReference<NewscontentRequest>() {
+//        });
+//        int result = 0;
+//        NewstypeResponse response = new NewstypeResponse();
+//        if (inquireData.getNewslist().size()==0) {
+//            //表示查询结果为空 进行更新操作
+//            result = this.newscontentRepository.editNewsContent(param);
+//            log.info("更新结束..................");
+//            response.setCode("200");
+//        } else {
+//            log.info("已经存在相同类型..........");
+//            response.setCode("201");
+//        }
         NewstypeResponse response = new NewstypeResponse();
-        if (inquireData.getNewslist().size()==0) {
-            //表示查询结果为空 进行更新操作
-            result = this.newscontentRepository.editNewsContent(param);
-            log.info("更新结束..................");
-            response.setCode("200");
-        } else {
-            log.info("已经存在相同类型..........");
-            response.setCode("201");
-        }
+        int result = this.newscontentRepository.editNewsContent(param);
+        log.info("更新结束..................");
+        response.setCode("200");
 
         // 返回
         return JSON.toJSONString(response);

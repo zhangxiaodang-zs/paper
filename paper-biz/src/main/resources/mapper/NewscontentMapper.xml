@@ -65,20 +65,21 @@
 
     <select id="getNewsContentListAccurate" parameterType="Map" resultType="Map">
         SELECT
-        c.id as newsid
-        ,c.typeid as newstypeid
-        ,c.title as title
-        ,c.summary as summary
-        ,c.content as content
-        ,c.readtimes as readtimes
-        ,c.goodtimes as thumbs
-        ,c.updtime as updtime
-        ,t.newstype as newstype
+             c.id as newsid
+            ,c.typeid as newstypeid
+            ,c.title as title
+            ,c.summary as summary
+            ,c.content as content
+            ,c.readtimes as readtimes
+            ,c.goodtimes as thumbs
+            ,c.updtime as updtime
+            ,t.newstype as newstype
         FROM
-        paper_news_content c
-        LEFT JOIN paper_news_type t ON c.typeid = t.id
+            paper_news_content c
+        LEFT JOIN paper_news_type t
+            ON c.typeid = t.id
         WHERE
-        1 = 1
+            1 = 1
         <if test="newsid != null and newsid != ''">
             AND c.id = #{newsid}
         </if>
