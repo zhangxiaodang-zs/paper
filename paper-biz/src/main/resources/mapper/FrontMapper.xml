@@ -79,18 +79,18 @@
 
     <select id="getQuestionList" parameterType="Map" resultType="Map">
         SELECT
-        c.id as id
-        ,c.typeid as typeid
-        ,c.title as title
-        ,c.summary as summary
-        ,c.readtimes as readtimes
-        ,c.goodtimes as goodtimes
-        ,c.updtime as add_time
-        ,'毕业之家' as author
+             c.id as id
+            ,c.typeid as typeid
+            ,c.title as title
+            ,c.summary as summary
+            ,c.readtimes as readtimes
+            ,c.goodtimes as goodtimes
+            ,c.updtime as add_time
+            ,'毕业之家' as author
         FROM
-        paper_question_content c
+            paper_question_content c
         WHERE
-        1 = 1
+            1 = 1
         <if test="typeid != null and typeid != ''">
             AND c.typeid = #{typeid}
         </if>

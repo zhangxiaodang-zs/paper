@@ -46,12 +46,25 @@ public class FrontService {
             param.put("startindex", requestData.getStartindex());
             param.put("pagesize", requestData.getPagesize());
             param.put("pagingOrNot", "1");
+        } else {
+            param.put("startindex", 0);
+            param.put("pagesize", 5);
+            param.put("pagingOrNot", "1");
         }
 
         // 查询
         List<Map<String, String>> newsList = this.frontRepository.getNewsList(param);
         // 总条数
         int cnt = this.frontRepository.getNewsCnt(param);
+
+        // 没有分页信息时
+        if (requestData.getPagesize() == 0) {
+            newsList.forEach(item -> {
+                if (item.get("title").length() > 14) {
+                    item.put("title", item.get("title").substring(0, 13) + "...");
+                }
+            });
+        }
 
         FrontResponse responseData = new FrontResponse();
         responseData.setNewscontentlist(newsList);
@@ -73,8 +86,8 @@ public class FrontService {
 
         // 查询
         Map<String, String> newsContent = this.frontRepository.getNewsContent(param);
-        newsContent.put("read",newsContent.get("readtimes"));
-        newsContent.put("like",newsContent.get("goodtimes"));
+        newsContent.put("read", newsContent.get("readtimes"));
+        newsContent.put("like", newsContent.get("goodtimes"));
         FrontResponse responseData = new FrontResponse();
         responseData.setNewscontent(newsContent);
         log.info("返回的新闻内容数据为：\n{}", JSON.toJSONString(
@@ -115,12 +128,25 @@ public class FrontService {
             param.put("startindex", requestData.getStartindex());
             param.put("pagesize", requestData.getPagesize());
             param.put("pagingOrNot", "1");
+        } else {
+            param.put("startindex", 0);
+            param.put("pagesize", 5);
+            param.put("pagingOrNot", "1");
         }
 
         // 查询
         List<Map<String, String>> questionList = this.frontRepository.getQuestionList(param);
         // 总条数
         int cnt = this.frontRepository.getQuestionCnt(param);
+
+        // 没有分页信息时
+        if (requestData.getPagesize() == 0) {
+            questionList.forEach(item -> {
+                if (item.get("title").length() > 14) {
+                    item.put("title", item.get("title").substring(0, 13) + "...");
+                }
+            });
+        }
 
         FrontResponse responseData = new FrontResponse();
         responseData.setQuestioncontentlist(questionList);
@@ -142,8 +168,8 @@ public class FrontService {
 
         // 查询
         Map<String, String> questionContent = this.frontRepository.getQuestionContent(param);
-        questionContent.put("read",questionContent.get("readtimes"));
-        questionContent.put("like",questionContent.get("goodtimes"));
+        questionContent.put("read", questionContent.get("readtimes"));
+        questionContent.put("like", questionContent.get("goodtimes"));
         FrontResponse responseData = new FrontResponse();
         responseData.setQuestioncontent(questionContent);
         log.info("返回的新闻内容数据为：\n{}", JSON.toJSONString(
