@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -27,6 +30,7 @@ public class NewscontentService {
     @Autowired
     private NewscontentRepository newscontentRepository;
 
+    private String url = "D:/htmlcode/";
     /**
      * 查询一览.
      */
@@ -70,8 +74,10 @@ public class NewscontentService {
             Map<String, String> param = new HashMap<>();
             param.put("id", advertId);
             result = this.newscontentRepository.delNewContent(param);
-            if (result == 1) {
+            if (result >0) {
                 log.info("删除新闻内容成功..................");
+                url+=requestData.getNewsid()+".html";
+                delHtml(url);
             } else {
                 log.info("删除新闻内容失败..................");
             }
@@ -128,8 +134,13 @@ public class NewscontentService {
 //            log.info("已经存在相同类型..........");
 //            response.setCode("201");
 //        }
-        NewstypeResponse response = new NewstypeResponse();
+        NewscontentResponse response = new NewscontentResponse();
         int result = this.newscontentRepository.editNewsContent(param);
+        if(result > 0){
+            url = url+requestData.getNewsid()+".html";
+            writeHtml(url,requestData.getContent(),"YES");
+            response.setHtmlurl(url);
+        }
         log.info("更新结束..................");
         response.setCode("200");
 
@@ -164,10 +175,15 @@ public class NewscontentService {
         NewscontentRequest inquireData = JSON.parseObject(responseData, new TypeReference<NewscontentRequest>() {
         });
         int addData = 0;
-        QuestioncontentResponse response = new QuestioncontentResponse();
-        if (inquireData.getNewslist().size()==0) {
+        NewscontentResponse response = new NewscontentResponse();
+        if (inquireData.getNewslist().size() == 0) {
             //表示查询结果为空 进行新增操作
             addData = this.newscontentRepository.addNewsContent(param);
+            if(addData > 0){
+                url = url+requestData.getNewsid()+".html";
+                writeHtml(url,requestData.getContent(),"YES");
+                response.setHtmlurl(url);
+            }
             log.info("插入结束..................");
             response.setCode("200");
         } else {
@@ -198,4 +214,44 @@ public class NewscontentService {
         return JSON.toJSONString(response);
     }
 
+    public static synchronized void writeHtml(String filePath, String info, String flag) {
+        PrintWriter pw = null;
+        try {
+            File writeFile = new File(filePath);
+            boolean isExit = writeFile.exists();
+            if (isExit != true) {
+                writeFile.createNewFile();
+            } else {
+                if (!flag.equals("NO")) {
+                    writeFile.delete();
+                    writeFile.createNewFile();
+                }
+            }
+            pw = new PrintWriter(new FileOutputStream(filePath, true));
+            pw.println(info);
+            pw.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            pw.close();
+        }
+    }
+
+    public static synchronized void delHtml(String filePath) {
+        PrintWriter pw = null;
+        try {
+            File writeFile = new File(filePath);
+            boolean isExit = writeFile.exists();
+            if (isExit != true) {
+
+            } else {
+                writeFile.delete();
+            }
+            pw.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            pw.close();
+        }
+    }
 }

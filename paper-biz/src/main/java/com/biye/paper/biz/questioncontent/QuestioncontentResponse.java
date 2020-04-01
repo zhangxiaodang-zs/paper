@@ -18,4 +18,6 @@ public class QuestioncontentResponse extends BaseResponse {
     private String summary = "";
     private String questionid = "";
     private String content = "";
+    // html存放路径
+    private String htmlurl = "";
 }

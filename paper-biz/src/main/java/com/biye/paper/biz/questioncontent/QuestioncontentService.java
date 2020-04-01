@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.biye.paper.biz.newscontent.NewscontentRepository;
 import com.biye.paper.biz.newscontent.NewscontentRequest;
 import com.biye.paper.biz.newscontent.NewscontentResponse;
+import com.biye.paper.biz.newscontent.NewscontentService;
 import com.biye.paper.biz.newstype.NewstypeRequest;
 import com.biye.paper.biz.newstype.NewstypeResponse;
 import com.biye.paper.core.utils.BiyeCommonUtil;
@@ -26,6 +27,11 @@ public class QuestioncontentService {
 
     @Autowired
     private QuestioncontentRepository questioncontentRepository;
+
+    @Autowired
+    private NewscontentService newscontentService;
+
+    private String url = "D:/htmlcode/";
 
     /**
      * 查询一览.
@@ -73,6 +79,8 @@ public class QuestioncontentService {
             result = this.questioncontentRepository.delQuestionContent(param);
             if (result == 1) {
                 log.info("删除新闻内容成功..................");
+                url+=requestData.getQuestionid()+".html";
+                newscontentService.delHtml(url);
             } else {
                 log.info("删除新闻内容失败..................");
             }
@@ -124,10 +132,15 @@ public class QuestioncontentService {
         QuestioncontentRequest inquireData = JSON.parseObject(responseData, new TypeReference<QuestioncontentRequest>() {
         });
         int result = 0;
-        NewstypeResponse response = new NewstypeResponse();
+        QuestioncontentResponse response = new QuestioncontentResponse();
         if (!inquireData.getQuestionlist().equals("[]")) {
             //表示查询结果为空 进行更新操作
             result = this.questioncontentRepository.editQuestionContent(param);
+            if(result > 0){
+                url = url+requestData.getQuestionid()+".html";
+                newscontentService.writeHtml(url,requestData.getContent(),"YES");
+                response.setHtmlurl(url);
+            }
             log.info("更新结束..................");
             response.setCode("200");
         } else {
@@ -169,6 +182,11 @@ public class QuestioncontentService {
         if (inquireData.getQuestionlist().size()==0) {
             //表示查询结果为空 进行新增操作
             addData = this.questioncontentRepository.addQuestionContent(param);
+            if(addData > 0){
+                url = url+requestData.getQuestionid()+".html";
+                newscontentService.writeHtml(url,requestData.getContent(),"YES");
+                response.setHtmlurl(url);
+            }
             log.info("插入结束..................");
             response.setCode("200");
         } else {

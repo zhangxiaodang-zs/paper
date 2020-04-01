@@ -31,4 +31,7 @@ public class NewscontentResponse extends BaseResponse {
 
     // 新闻id
     private String newsid = "";
+
+    // html存放路径
+    private String htmlurl = "";
 }
