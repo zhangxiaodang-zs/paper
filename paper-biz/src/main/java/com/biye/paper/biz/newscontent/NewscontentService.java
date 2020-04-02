@@ -30,7 +30,7 @@ public class NewscontentService {
     @Autowired
     private NewscontentRepository newscontentRepository;
 
-    private String url = "/home/biye/src/paper_web/views/";
+    private String url = "/home/biye/src/paper_web/views/statics/";
     /**
      * 查询一览.
      */
