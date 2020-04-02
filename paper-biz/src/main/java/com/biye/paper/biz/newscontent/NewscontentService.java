@@ -137,8 +137,10 @@ public class NewscontentService {
         NewscontentResponse response = new NewscontentResponse();
         int result = this.newscontentRepository.editNewsContent(param);
         if(result > 0){
-            log.info("url"+url);
+            log.info("url:"+url);
             url = url+requestData.getNewsid()+".html";
+            log.info("newid:"+requestData.getNewsid());
+            log.info("newurl:"+url);
             writeHtml(url,requestData.getContent());
             response.setHtmlurl(url);
         }
@@ -181,8 +183,10 @@ public class NewscontentService {
             //表示查询结果为空 进行新增操作
             addData = this.newscontentRepository.addNewsContent(param);
             if(addData > 0){
-                log.info("url"+url);
+                log.info("url:"+url);
                 url = url+requestData.getNewsid()+".html";
+                log.info("newid:"+requestData.getNewsid());
+                log.info("newurl:"+url);
                 writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
