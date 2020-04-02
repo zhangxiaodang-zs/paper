@@ -76,7 +76,9 @@ public class NewscontentService {
             result = this.newscontentRepository.delNewContent(param);
             if (result >0) {
                 log.info("删除新闻内容成功..................");
-                url+=requestData.getNewsid()+".html";
+                url=url + requestData.getNewsid()+".html";
+                log.info("newid:"+requestData.getNewsid());
+                log.info("newurl:"+url);
                 delHtml(url);
             } else {
                 log.info("删除新闻内容失败..................");
@@ -220,7 +222,7 @@ public class NewscontentService {
         return JSON.toJSONString(response);
     }
 
-    public static void writeHtml(String filePath, String info) {
+    private static void writeHtml(String filePath, String info) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);
@@ -241,7 +243,7 @@ public class NewscontentService {
         }
     }
 
-    public static void delHtml(String filePath) {
+    private static void delHtml(String filePath) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);

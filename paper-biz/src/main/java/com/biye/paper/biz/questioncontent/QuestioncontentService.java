@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -79,8 +82,10 @@ public class QuestioncontentService {
             result = this.questioncontentRepository.delQuestionContent(param);
             if (result == 1) {
                 log.info("删除新闻内容成功..................");
-                url+=requestData.getQuestionid()+".html";
-                newscontentService.delHtml(url);
+                url = url+requestData.getQuestionid()+".html";
+                log.info("quesid:"+requestData.getQuestionid());
+                log.info("quesurl:"+url);
+                delHtml(url);
             } else {
                 log.info("删除新闻内容失败..................");
             }
@@ -139,9 +144,9 @@ public class QuestioncontentService {
             if(result > 0){
                 log.info("url:"+url);
                 url = url+requestData.getQuestionid()+".html";
-                log.info("newid:"+requestData.getQuestionid());
-                log.info("newurl:"+url);
-                newscontentService.writeHtml(url,requestData.getContent());
+                log.info("quesid:"+requestData.getQuestionid());
+                log.info("quesurl:"+url);
+                writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
             log.info("更新结束..................");
@@ -188,9 +193,9 @@ public class QuestioncontentService {
             if(addData > 0){
                 log.info("url:"+url);
                 url = url+requestData.getQuestionid()+".html";
-                log.info("newid:"+requestData.getQuestionid());
-                log.info("newurl:"+url);
-                newscontentService.writeHtml(url,requestData.getContent());
+                log.info("quesid:"+requestData.getQuestionid());
+                log.info("quesurl:"+url);
+                writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
             log.info("插入结束..................");
@@ -221,5 +226,44 @@ public class QuestioncontentService {
 
         // 返回
         return JSON.toJSONString(response);
+    }
+
+    private static void writeHtml(String filePath, String info) {
+        PrintWriter pw = null;
+        try {
+            File writeFile = new File(filePath);
+            boolean isExit = writeFile.exists();
+            if (isExit != true) {
+                writeFile.createNewFile();
+            } else {
+                writeFile.delete();
+                writeFile.createNewFile();
+            }
+            pw = new PrintWriter(new FileOutputStream(filePath, true));
+            pw.println(info);
+            pw.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            pw.close();
+        }
+    }
+
+    private static void delHtml(String filePath) {
+        PrintWriter pw = null;
+        try {
+            File writeFile = new File(filePath);
+            boolean isExit = writeFile.exists();
+            if (isExit != true) {
+
+            } else {
+                writeFile.delete();
+            }
+            pw.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            pw.close();
+        }
     }
 }
