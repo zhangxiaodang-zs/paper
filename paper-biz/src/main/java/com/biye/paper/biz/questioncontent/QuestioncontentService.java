@@ -137,8 +137,9 @@ public class QuestioncontentService {
             //表示查询结果为空 进行更新操作
             result = this.questioncontentRepository.editQuestionContent(param);
             if(result > 0){
+                log.info("url"+url);
                 url = url+requestData.getQuestionid()+".html";
-                newscontentService.writeHtml(url,requestData.getContent(),"YES");
+                newscontentService.writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
             log.info("更新结束..................");
@@ -183,8 +184,9 @@ public class QuestioncontentService {
             //表示查询结果为空 进行新增操作
             addData = this.questioncontentRepository.addQuestionContent(param);
             if(addData > 0){
+                log.info("url"+url);
                 url = url+requestData.getQuestionid()+".html";
-                newscontentService.writeHtml(url,requestData.getContent(),"YES");
+                newscontentService.writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
             log.info("插入结束..................");

@@ -137,8 +137,9 @@ public class NewscontentService {
         NewscontentResponse response = new NewscontentResponse();
         int result = this.newscontentRepository.editNewsContent(param);
         if(result > 0){
+            log.info("url"+url);
             url = url+requestData.getNewsid()+".html";
-            writeHtml(url,requestData.getContent(),"YES");
+            writeHtml(url,requestData.getContent());
             response.setHtmlurl(url);
         }
         log.info("更新结束..................");
@@ -180,8 +181,9 @@ public class NewscontentService {
             //表示查询结果为空 进行新增操作
             addData = this.newscontentRepository.addNewsContent(param);
             if(addData > 0){
+                log.info("url"+url);
                 url = url+requestData.getNewsid()+".html";
-                writeHtml(url,requestData.getContent(),"YES");
+                writeHtml(url,requestData.getContent());
                 response.setHtmlurl(url);
             }
             log.info("插入结束..................");
@@ -214,7 +216,7 @@ public class NewscontentService {
         return JSON.toJSONString(response);
     }
 
-    public static synchronized void writeHtml(String filePath, String info, String flag) {
+    public static void writeHtml(String filePath, String info) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);
@@ -222,10 +224,8 @@ public class NewscontentService {
             if (isExit != true) {
                 writeFile.createNewFile();
             } else {
-                if (!flag.equals("NO")) {
-                    writeFile.delete();
-                    writeFile.createNewFile();
-                }
+                writeFile.delete();
+                writeFile.createNewFile();
             }
             pw = new PrintWriter(new FileOutputStream(filePath, true));
             pw.println(info);
@@ -237,7 +237,7 @@ public class NewscontentService {
         }
     }
 
-    public static synchronized void delHtml(String filePath) {
+    public static void delHtml(String filePath) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);
