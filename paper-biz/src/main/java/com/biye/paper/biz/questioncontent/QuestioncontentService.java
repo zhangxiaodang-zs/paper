@@ -34,8 +34,6 @@ public class QuestioncontentService {
     @Autowired
     private NewscontentService newscontentService;
 
-    private String url = "/home/biye/src/paper_web/views/statics/";
-
     /**
      * 查询一览.
      */
@@ -82,6 +80,7 @@ public class QuestioncontentService {
             result = this.questioncontentRepository.delQuestionContent(param);
             if (result == 1) {
                 log.info("删除新闻内容成功..................");
+                String url = "/home/biye/src/paper_web/views/statics/";
                 url = url+requestData.getQuestionid()+".html";
                 log.info("quesid:"+requestData.getQuestionid());
                 log.info("quesurl:"+url);
@@ -142,6 +141,7 @@ public class QuestioncontentService {
             //表示查询结果为空 进行更新操作
             result = this.questioncontentRepository.editQuestionContent(param);
             if(result > 0){
+                String url = "/home/biye/src/paper_web/views/statics/";
                 log.info("url:"+url);
                 url = url+requestData.getQuestionid()+".html";
                 log.info("quesid:"+requestData.getQuestionid());
@@ -191,6 +191,7 @@ public class QuestioncontentService {
             //表示查询结果为空 进行新增操作
             addData = this.questioncontentRepository.addQuestionContent(param);
             if(addData > 0){
+                String url = "/home/biye/src/paper_web/views/statics/";
                 log.info("url:"+url);
                 url = url+requestData.getQuestionid()+".html";
                 log.info("quesid:"+requestData.getQuestionid());

@@ -30,7 +30,6 @@ public class NewscontentService {
     @Autowired
     private NewscontentRepository newscontentRepository;
 
-    private String url = "/home/biye/src/paper_web/views/statics/";
     /**
      * 查询一览.
      */
@@ -76,6 +75,7 @@ public class NewscontentService {
             result = this.newscontentRepository.delNewContent(param);
             if (result >0) {
                 log.info("删除新闻内容成功..................");
+                String url = "/home/biye/src/paper_web/views/statics/";
                 url=url + requestData.getNewsid()+".html";
                 log.info("newid:"+requestData.getNewsid());
                 log.info("newurl:"+url);
@@ -139,6 +139,7 @@ public class NewscontentService {
         NewscontentResponse response = new NewscontentResponse();
         int result = this.newscontentRepository.editNewsContent(param);
         if(result > 0){
+            String url = "/home/biye/src/paper_web/views/statics/";
             log.info("url:"+url);
             url = url+requestData.getNewsid()+".html";
             log.info("newid:"+requestData.getNewsid());
@@ -185,6 +186,7 @@ public class NewscontentService {
             //表示查询结果为空 进行新增操作
             addData = this.newscontentRepository.addNewsContent(param);
             if(addData > 0){
+                String url = "/home/biye/src/paper_web/views/statics/";
                 log.info("url:"+url);
                 url = url+requestData.getNewsid()+".html";
                 log.info("newid:"+requestData.getNewsid());
