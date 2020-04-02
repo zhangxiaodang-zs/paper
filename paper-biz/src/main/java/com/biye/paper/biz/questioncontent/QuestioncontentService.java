@@ -31,7 +31,7 @@ public class QuestioncontentService {
     @Autowired
     private NewscontentService newscontentService;
 
-    private String url = "D:/htmlcode/";
+    private String url = "/home/biye/src/paper_web/views/";
 
     /**
      * 查询一览.
