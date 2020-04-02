@@ -228,10 +228,11 @@ public class QuestioncontentService {
         return JSON.toJSONString(response);
     }
 
-    private static void writeHtml(String filePath, String info) {
+    private void writeHtml(String filePath, String info) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);
+            log.info("filePath:"+filePath);
             boolean isExit = writeFile.exists();
             if (isExit != true) {
                 writeFile.createNewFile();
@@ -249,10 +250,11 @@ public class QuestioncontentService {
         }
     }
 
-    private static void delHtml(String filePath) {
+    private void delHtml(String filePath) {
         PrintWriter pw = null;
         try {
             File writeFile = new File(filePath);
+            log.info("filePath:"+filePath);
             boolean isExit = writeFile.exists();
             if (isExit != true) {
 
